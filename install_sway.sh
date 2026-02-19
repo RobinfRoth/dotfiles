@@ -5,6 +5,37 @@ set -euo pipefail
 
 SWAY_CONF_DIR="$HOME/.config/sway"
 SWAY_RUN_DIR="/usr/local/bin"
+SYSTEMD_USER_DIR="$HOME/.config/systemd/user"
+
+# get the systemd unit's current state 
+get_unit_state () {
+    local unit_state=$(systemctl --user list-unit-files "$1" \
+        --output json --no-pager | jq '.[].state') 
+
+    if [[ $unit_state == "" ]]; then
+        echo "missing"
+    else
+        echo "$unit_state" 
+    fi
+}
+
+# execute necessary commands to initialise systemd unit based on state
+init_unit () { 
+    local state=$(get_unit_state $1) 
+    local unit_file_repo="$2/$1"
+    local unit_type=${1##*.}
+    echo "State of $1: $state"
+    # don't enable target units
+    case "$state" in
+        missing) ln -fvs $unit_file_repo $3;&
+        disabled)
+            if [[ "${unit_type}" != target ]]; then
+                systemctl --user enable $1
+            fi     
+            ;;
+        *) return;;
+    esac
+}
 
 echo "Running sway install script ..."
 
@@ -34,8 +65,12 @@ sudo apt-get -qy install sway swayidle \
     xdg-desktop-portal xdg-desktop-portal-wlr
 
 # install sway config from this repo via symlink to facilitate updates
-printf "\nCreate symbolic links for the config files from this repo:\n"
+printf "\nCreating symbolic links for the config files from this repo:\n"
 ln -fvs "$PWD/configs/sway/config" "$SWAY_CONF_DIR/config"
 sudo ln -fvs "$PWD/scripts/sway-run" "$SWAY_RUN_DIR/sway-run"
 
-echo "Done."
+printf "\nCreating symbolic links and initalizing systemd units for sway:\n"
+init_unit "sway-session.target" "$PWD/configs/sway" $SYSTEMD_USER_DIR
+init_unit "kanshi.service" "$PWD/configs/sway" $SYSTEMD_USER_DIR 
+
+echo "Installation done."

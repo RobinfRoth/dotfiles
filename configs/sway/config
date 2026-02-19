@@ -223,6 +223,8 @@ bindsym $mod+r mode "resize"
     exec_always wlsunset -l 46.8 -L 8.2 -t 4800
     # start kwallet on boot
     exec --no-startup-id /usr/share/libpam-kwallet-common/pam_kwallet_init
+    # activate sway-session systemd target
+    exec_always systemctl --user start sway-session.target
 
 #
 # Status Bar:
