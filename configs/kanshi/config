@@ -1,0 +1,9 @@
+profile mobile {
+    output eDP-1 enable mode 1920x1080@60Hz position 0,0
+}
+
+profile base {
+    output eDP-1 mode 1920x1080@60Hz position 0,0
+    output HDMI-A-1 enable mode 1920x1080@60Hz position 1920,0
+    exec swaymsg workspace 1, move workspace to HDMI-A-1
+}

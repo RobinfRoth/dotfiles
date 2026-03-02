@@ -5,6 +5,7 @@ set -euo pipefail
 
 SWAY_CONF_DIR="$HOME/.config/sway"
 SWAY_RUN_DIR="/usr/local/bin"
+KANSHI_CONF_DIR="$HOME/.config/kanshi"
 SYSTEMD_USER_DIR="$HOME/.config/systemd/user"
 
 # get the systemd unit's current state 
@@ -33,7 +34,9 @@ init_unit () {
                 systemctl --user enable $1
             fi     
             ;;
-        *) return;;
+        *)
+            echo "Systemd unit $1 is already installed. Doing nothing."
+            return;;
     esac
 }
 
@@ -72,5 +75,8 @@ sudo ln -fvs "$PWD/scripts/sway-run" "$SWAY_RUN_DIR/sway-run"
 printf "\nCreating symbolic links and initalizing systemd units for sway:\n"
 init_unit "sway-session.target" "$PWD/configs/sway" $SYSTEMD_USER_DIR
 init_unit "kanshi.service" "$PWD/configs/sway" $SYSTEMD_USER_DIR 
+
+# install kanshi config via symlink
+ln -fvs "$PWD/configs/kanshi/config" "$KANSHI_CONF_DIR/config"
 
 echo "Installation done."
