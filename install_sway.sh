@@ -65,7 +65,8 @@ sudo apt-get -qy install sway swayidle \
     xwayland \
     light \
     mako-notifier \
-    xdg-desktop-portal xdg-desktop-portal-wlr
+    xdg-desktop-portal xdg-desktop-portal-wlr \
+    blueman libspa-0.2-bluetooth
 
 # install sway config from this repo via symlink to facilitate updates
 printf "\nCreating symbolic links for the config files from this repo:\n"

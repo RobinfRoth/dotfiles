@@ -219,6 +219,8 @@ bindsym $mod+r mode "resize"
     exec /usr/libexec/xdg-desktop-portal-wlr
     # start nm-applet on boot
     exec_always nm-applet --indicator
+    # start bluethoot gui in tray
+    exec_always blueman-applet
     # start wlsunset with lat / lon for ch and min temp 4800K
     exec_always wlsunset -l 46.8 -L 8.2 -t 4800
     # start kwallet on boot
