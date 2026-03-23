@@ -229,7 +229,7 @@ bindsym $mod+r mode "resize"
     exec_always systemctl --user start sway-session.target
     # ensure dolphin knows file associations by starting Kservice desktop
     # configuration cache
-    exec kbuildsycoca6 --noincremental
+    exec_always kbuildsycoca6 --noincremental
 
 #
 # Status Bar:
