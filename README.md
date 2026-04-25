@@ -11,7 +11,7 @@ See [Sway](#Sway) for more details on how to install it.
 ./install_dotfiles.sh
 ```
 
-(###Sway)
+### Sway
 
 To install sway, its dependencies and the corresponding dotfiles run
 `install_sway.sh` inside of this repo:
