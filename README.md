@@ -4,7 +4,14 @@ This repository contains all my dotfiles and shell scripts to install them.
 
 ## Usage
 
-### Sway
+To install the dotfiles for all programs except sway run the following command.
+See [Sway](#Sway) for more details on how to install it.
+
+```bash
+./install_dotfiles.sh
+```
+
+(###Sway)
 
 To install sway, its dependencies and the corresponding dotfiles run
 `install_sway.sh` inside of this repo:
