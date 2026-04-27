@@ -54,3 +54,12 @@ apt_install () {
 
     sudo apt-get -q install "$@"
 }
+
+# Check if the string $1 is contained in the remaining strings $2 - $#.
+contains () {
+    local elem search_term=$1 
+    shift
+    local -a arr=( "$@" )
+    for elem in $arr; do [[ "$elem" == "$search_term" ]] && return 0; done 
+    return 1
+}
