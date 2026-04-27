@@ -14,8 +14,6 @@ if contains "vim" "${!CONF_FILES[@]}"; then
     vim-addon-manager install youcompleteme
 fi
 
-exit 0
-
 printf "\nCreating symbolic links for dotfiles files from this repo.\n"
 
 # install dotfiles from this repo via symlink to facilitate updates
