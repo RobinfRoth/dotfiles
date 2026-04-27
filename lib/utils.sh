@@ -59,7 +59,6 @@ apt_install () {
 contains () {
     local elem search_term=$1 
     shift
-    local -a arr=( "$@" )
-    for elem in $arr; do [[ "$elem" == "$search_term" ]] && return 0; done 
+    for elem; do [[ "$elem" == "$search_term" ]] && return 0; done 
     return 1
 }
