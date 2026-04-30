@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Library that holds utility functions.
 # Can be included using source lib/utils.sh 
 
