@@ -20,15 +20,15 @@ get_unit_state () {
 # $2: Source directory in this repo where $1 can be found 
 # $3: Destination directory on the system where $1 should be linked to
 init_unit () { 
-    local state=$(get_unit_state $1) 
+    local state="$(get_unit_state $1)" 
     local unit_file_repo="$2/$1"
-    local unit_type=${1##*.}
+    local unit_type="${1##*.}"
     echo "State of $1: $state"
     # don't enable target units
     case "$state" in
-        missing) ln -fvs $unit_file_repo $3;&
+        missing) ln -fvs "$unit_file_repo" $3;&
         disabled)
-            if [[ "${unit_type}" != target ]]; then
+            if [[ ${unit_type} != target ]]; then
                 systemctl --user enable $1
             fi
             return 0 
@@ -58,8 +58,8 @@ apt_install () {
 
 # Check if the string $1 is contained in the remaining strings $2 - $#.
 contains () {
-    local elem search_term=$1 
+    local elem search_term=$1
     shift
-    for elem; do [[ "$elem" == "$search_term" ]] && return 0; done 
+    for elem; do [[ $elem == $search_term ]] && return 0; done 
     return 1
 }
