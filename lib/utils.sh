@@ -4,14 +4,16 @@
 
 # Get the systemd unit's current state. 
 # $1: Name of the unit. 
+# $2: Name of a variable in which the result should be stored.
 get_unit_state () {
+    declare -n ret_val=$2
     local unit_state=$(systemctl --user list-unit-files "$1" \
-        --output json --no-pager | jq '.[].state') 
+        --output json --no-pager | jq -r '.[].state') 
 
-    if [[ $unit_state == "" ]]; then
-        echo "missing"
+    if [[ -z $unit_state ]]; then
+        ret_val="missing"
     else
-        echo "$unit_state" 
+        ret_val="$unit_state" 
     fi
 }
 
@@ -20,7 +22,8 @@ get_unit_state () {
 # $2: Source directory in this repo where $1 can be found.
 # $3: Destination directory on the system where $1 should be linked to.
 init_unit () { 
-    local state="$(get_unit_state $1)" 
+    local state
+    get_unit_state $1 state
     local unit_file_repo="$2/$1"
     local unit_type="${1##*.}"
     echo "State of $1: $state"
